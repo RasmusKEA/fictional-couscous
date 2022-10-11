@@ -25,7 +25,6 @@ public class RandomPerson
             Cpr = cpr
         };
         
-
         return onePerson;
     }
 
@@ -48,7 +47,7 @@ public class RandomPerson
 
     public Person NameAndGender()
     {
-        var fileName = "/Users/rasmusmoller/RiderProjects/RandomPerson/RandomPerson/persons.json";
+        var fileName = "/Users/rasmusmoller/Desktop/fictional-couscous/RandomPerson/RandomPerson/persons.json";
         if (!File.Exists(fileName)) return null;
         
         var persons = JsonConvert.DeserializeObject<List<JsonPerson>>(File.ReadAllText(fileName));
@@ -123,23 +122,53 @@ public class RandomPerson
         return $"{address} {houseNumber}, {floor[rnd.Next(0,7)]} {door[rnd.Next(0,3)]}, {zipAndCity}";
     }
 
-    private string CprNumber(string gender)
+    public string CprNumber(string gender)
     {
         var start = new DateTime(1900, 1, 1);
         var range = (DateTime.Today - start).Days;           
         var randomDate = start.AddDays(rnd.Next(range));
         var formatDate = randomDate.ToString("ddMMyy");
-        var endDigits = rnd.Next(2000, 9999);
+        var endDigits = rnd.Next(2000, 9000);
+        Console.WriteLine(endDigits/2);
 
-        switch (gender)
+        return gender switch
         {
-            case "male":
-                return $"{formatDate}-{(endDigits / 2) + 1}";
-            case "female":
-                return $"{formatDate}-{endDigits / 2}";
-        }
+            "male" => $"{formatDate}-{(endDigits / 2)*2 + 1}",
+            "female" => $"{formatDate}-{(endDigits / 2)*2}",
+            _ => "Wrong input"
+        };
+    }
 
-        return "Wrong input";
+    public Person DoBFullnameAndGender()
+    {
+        var person = NameAndGender();
+        var cpr = CprNumber(person.Gender);
+        var doB = cpr.Split("-");
+
+        return new Person
+        {
+            Name = person.Name,
+            Surname = person.Surname,
+            Gender = person.Gender,
+            DoB = doB[0]
+        };
+
+    }
+    
+    public Person DoBCPRFullnameAndGender()
+    {
+        var person = NameAndGender();
+        var cpr = CprNumber(person.Gender);
+        var doB = cpr.Split("-");
+
+        return new Person
+        {
+            Name = person.Name,
+            Surname = person.Surname,
+            Gender = person.Gender,
+            DoB = doB[0],
+            Cpr = cpr
+        };
     }
 
     public static void Main()

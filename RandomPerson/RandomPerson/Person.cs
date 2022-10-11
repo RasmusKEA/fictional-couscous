@@ -11,7 +11,24 @@ public class Person
         Address = address;
         Cpr = cpr;
     }
+
+    public Person(string? name, string? surname, string? gender, string? doB)
+    {
+        Name = name;
+        Surname = surname;
+        Gender = gender;
+        DoB = doB;
+    }
     
+    public Person(string? name, string? surname, string? gender, string? doB, string? cpr)
+    {
+        Name = name;
+        Surname = surname;
+        Gender = gender;
+        DoB = doB;
+        Cpr = cpr;
+    }
+
     public Person(string? name, string? surname, string? gender)
     {
         Name = name;
@@ -31,5 +48,6 @@ public class Person
     public string? PhoneNumber { get; set; }
     public string? Address { get; set; }
     public string? Cpr { get; set; }
+    public string? DoB { get; set; }
 
 }
