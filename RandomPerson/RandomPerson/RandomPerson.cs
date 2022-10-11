@@ -129,8 +129,7 @@ public class RandomPerson
         var randomDate = start.AddDays(rnd.Next(range));
         var formatDate = randomDate.ToString("ddMMyy");
         var endDigits = rnd.Next(2000, 9000);
-        Console.WriteLine(endDigits/2);
-
+        
         return gender switch
         {
             "male" => $"{formatDate}-{(endDigits / 2)*2 + 1}",
@@ -170,12 +169,32 @@ public class RandomPerson
             Cpr = cpr
         };
     }
+    
+    public Person CPRFullnameAndGender()
+    {
+        var person = NameAndGender();
+        var cpr = CprNumber(person.Gender);
+
+        return new Person
+        {
+            Name = person.Name,
+            Surname = person.Surname,
+            Gender = person.Gender,
+            Cpr = cpr
+        };
+    }
 
     public static void Main()
     {
         var randomPerson = new RandomPerson();
-        Console.WriteLine(randomPerson.BulkPerson(5));
+        Console.WriteLine("Return a fake CPR: " + randomPerson.CprNumber("male"));
+        Console.WriteLine("Return a fake full name and gender: " + randomPerson.NameAndGender());
+        Console.WriteLine("Return a fake full name, gender and DoB: " + randomPerson.DoBFullnameAndGender());
+        Console.WriteLine("Return a fake full name, gender, DoB and CPR: " + randomPerson.DoBCPRFullnameAndGender());
+        Console.WriteLine("Return a fake full name, gender and CPR: " + randomPerson.CPRFullnameAndGender());
+        Console.WriteLine("Return a fake mobile phone number: " + randomPerson.PhoneNumber());
+        Console.WriteLine("Return a fake address: " + randomPerson.Address());
+        Console.WriteLine("Return all information for a fake person: " + randomPerson.OnePerson());
+        Console.WriteLine("Return fake person in bulk (5): " + randomPerson.BulkPerson(5) + " - Length of array: " + randomPerson.BulkPerson(5).Length);
     }
-
-
 }
